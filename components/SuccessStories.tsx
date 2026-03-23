@@ -101,40 +101,45 @@ function CarouselRow({
   const isPausedRef = useRef(false);
   const track       = [...images, ...images, ...images];
 
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    const oneSetWidth = el.scrollWidth / 3;
+ useEffect(() => {
+  const el = trackRef.current;
+  if (!el) return;
 
-    if (direction === "ltr") {
-      gsap.set(el, { x: 0 });
-      tweenRef.current = gsap.to(el, {
-        x: `-=${oneSetWidth}`,
-        duration: speed,
-        ease: "none",
-        repeat: -1,
-        modifiers: {
-          x: gsap.utils.unitize((x) => parseFloat(x) % oneSetWidth),
-        },
-      });
-    } else {
-      gsap.set(el, { x: -oneSetWidth });
-      tweenRef.current = gsap.to(el, {
-        x: `+=${oneSetWidth}`,
-        duration: speed,
-        ease: "none",
-        repeat: -1,
-        modifiers: {
-          x: gsap.utils.unitize((x) => {
-            const val = parseFloat(x) % oneSetWidth;
-            return val > 0 ? val - oneSetWidth : val;
-          }),
-        },
-      });
+  const oneSetWidth = el.scrollWidth / 3;
+
+  if (direction === "ltr") {
+    gsap.set(el, { x: 0 });
+    tweenRef.current = gsap.to(el, {
+      x: `-=${oneSetWidth}`,
+      duration: speed,
+      ease: "none",
+      repeat: -1,
+      modifiers: {
+        x: gsap.utils.unitize((x) => parseFloat(x) % oneSetWidth),
+      },
+    });
+  } else {
+    gsap.set(el, { x: -oneSetWidth });
+    tweenRef.current = gsap.to(el, {
+      x: `+=${oneSetWidth}`,
+      duration: speed,
+      ease: "none",
+      repeat: -1,
+      modifiers: {
+        x: gsap.utils.unitize((x) => {
+          const val = parseFloat(x) % oneSetWidth;
+          return val > 0 ? val - oneSetWidth : val;
+        }),
+      },
+    });
+  }
+
+  return () => {
+    if (tweenRef.current) {
+      tweenRef.current.kill();
     }
-
-    return () => tweenRef.current?.kill();
-  }, [direction, speed]);
+  };
+}, [direction, speed]);
 
   return (
     <div
