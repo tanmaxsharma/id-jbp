@@ -6,172 +6,155 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const SERVICES = [
-  { icon: "🖥️", title: "IT Support & Maintenance", desc: "Round-the-clock monitoring, maintenance, and helpdesk support to ensure your systems are always operational.", tags: ["24/7 Support", "Remote & Onsite"] },
-  { icon: "🌐", title: "Network & Infrastructure",  desc: "Design, implementation, and management of robust, scalable network solutions that grow with your business.", tags: ["LAN/WAN", "VPN", "Firewall"] },
-  { icon: "🔐", title: "Cyber Security",            desc: "Advanced threat protection, data encryption, and security audits to safeguard your critical business assets.", tags: ["Threat Detection", "Audits"] },
-  { icon: "⚙️", title: "Software Development",     desc: "Custom software solutions built for your exact requirements — from internal tools to customer-facing platforms.", tags: ["Web", "Mobile", "Enterprise"] },
-  { icon: "📊", title: "BPO Services",              desc: "Streamline business operations with professional business process outsourcing tailored to your workflow.", tags: ["Data Entry", "Operations"] },
-  { icon: "🧠", title: "KPO Services",              desc: "Knowledge-driven outsourcing leveraging deep domain expertise to deliver analytical and research services.", tags: ["Research", "Analytics"] },
+  {
+    title: "IT Support & Maintenance",
+    desc:  "Round-the-clock monitoring, maintenance, and helpdesk support to ensure your systems are always operational.",
+    tags:  ["24/7 Support", "Remote & Onsite"],
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=500&fit=crop&auto=format",
+    accent: "#3b82f6",
+    number: "01",
+  },
+  {
+    title: "Network & Infrastructure",
+    desc:  "Design, implementation, and management of robust, scalable network solutions that grow with your business.",
+    tags:  ["LAN/WAN", "VPN", "Firewall"],
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=500&fit=crop&auto=format",
+    accent: "#0ea5e9",
+    number: "02",
+  },
+  {
+    title: "Cyber Security",
+    desc:  "Advanced threat protection, data encryption, and security audits to safeguard your critical business assets.",
+    tags:  ["Threat Detection", "Audits"],
+    image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=500&fit=crop&auto=format",
+    accent: "#6366f1",
+    number: "03",
+  },
+  {
+    title: "Software Development",
+    desc:  "Custom software solutions built for your exact requirements — from internal tools to customer-facing platforms.",
+    tags:  ["Web", "Mobile", "Enterprise"],
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop&auto=format",
+    accent: "#10b981",
+    number: "04",
+  },
+  {
+    title: "BPO Services",
+    desc:  "Streamline business operations with professional business process outsourcing tailored to your workflow.",
+    tags:  ["Data Entry", "Operations"],
+    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=500&fit=crop&auto=format",
+    accent: "#f59e0b",
+    number: "05",
+  },
+  {
+    title: "KPO Services",
+    desc:  "Knowledge-driven outsourcing leveraging deep domain expertise to deliver analytical and research services.",
+    tags:  ["Research", "Analytics"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&auto=format",
+    accent: "#ec4899",
+    number: "06",
+  },
 ];
 
-/* ─── Desktop card (unchanged hover behaviour) ─────────────────── */
-function DesktopCard({ svc }: { svc: typeof SERVICES[0] }) {
+/* ─── Desktop card ───────────────────────────────────────────── */
+function ServiceCard({ svc }: { svc: (typeof SERVICES)[0] }) {
   const [hov, setHov] = useState(false);
+
   return (
     <div
-      data-desktop-card
+      data-svc-card
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        background: "#fff",
-        border: hov ? "1.5px solid #bfdbfe" : "1.5px solid #f1f5f9",
-        borderRadius: 20,
-        padding: "clamp(24px,2.5vw,32px)",
-        display: "flex", flexDirection: "column", gap: 14,
-        boxShadow: hov ? "0 20px 48px rgba(37,99,235,0.1)" : "0 2px 16px rgba(0,0,0,0.04)",
-        transform: hov ? "translateY(-8px)" : "translateY(0)",
-        transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-        cursor: "pointer", position: "relative", overflow: "hidden",
-      }}
-    >
-      {/* accent top line */}
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: 3,
-        background: "linear-gradient(90deg,#2563eb,#0ea5e9)",
-        transform: hov ? "scaleX(1)" : "scaleX(0)",
-        transformOrigin: "left",
-        transition: "transform 0.4s ease",
-        borderRadius: "3px 3px 0 0",
-      }} />
-
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div style={{
-          width: 52, height: 52,
-          background: hov ? "linear-gradient(135deg,#2563eb,#0ea5e9)" : "#f0f9ff",
-          borderRadius: 14,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: "1.4rem",
-          transition: "background 0.3s, transform 0.3s",
-          transform: hov ? "scale(1.08) rotate(-5deg)" : "none",
-        }}>{svc.icon}</div>
-        <svg style={{ color: "#2563eb", opacity: hov ? 1 : 0, transition: "opacity 0.3s" }}
-          width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M7 17L17 7M17 7H7M17 7v10" />
-        </svg>
-      </div>
-
-      <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#0f172a", lineHeight: 1.3,
-        fontFamily: "'Plus Jakarta Sans',sans-serif" }}>{svc.title}</h3>
-      <p style={{ fontSize: "0.85rem", color: "#64748b", lineHeight: 1.7, flex: 1,
-        fontFamily: "'Plus Jakarta Sans',sans-serif" }}>{svc.desc}</p>
-
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-        {svc.tags.map(t => (
-          <span key={t} style={{
-            padding: "3px 10px",
-            background: hov ? "#eff6ff" : "#f8fafc",
-            color: hov ? "#2563eb" : "#64748b",
-            borderRadius: 50, fontSize: "0.7rem", fontWeight: 600,
-            border: hov ? "1px solid #bfdbfe" : "1px solid #e2e8f0",
-            transition: "all 0.3s",
-            fontFamily: "'Plus Jakarta Sans',sans-serif",
-          }}>{t}</span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ─── Mobile stacked card (sticky scroll) ──────────────────────── */
-function MobileCard({
-  svc, index, total,
-}: { svc: typeof SERVICES[0]; index: number; total: number }) {
-  const colors = [
-    { bg: "#0f172a", accent: "#60a5fa", sub: "rgba(255,255,255,0.6)", tagBg: "rgba(96,165,250,0.15)", tagBorder: "rgba(96,165,250,0.3)", tagColor: "#93c5fd" },
-    { bg: "#1e3a5f", accent: "#38bdf8", sub: "rgba(255,255,255,0.6)", tagBg: "rgba(56,189,248,0.15)", tagBorder: "rgba(56,189,248,0.3)", tagColor: "#7dd3fc" },
-    { bg: "#1e1b4b", accent: "#a78bfa", sub: "rgba(255,255,255,0.6)", tagBg: "rgba(167,139,250,0.15)", tagBorder: "rgba(167,139,250,0.3)", tagColor: "#c4b5fd" },
-    { bg: "#14532d", accent: "#4ade80", sub: "rgba(255,255,255,0.6)", tagBg: "rgba(74,222,128,0.15)", tagBorder: "rgba(74,222,128,0.3)", tagColor: "#86efac" },
-    { bg: "#7c2d12", accent: "#fb923c", sub: "rgba(255,255,255,0.6)", tagBg: "rgba(251,146,60,0.15)",  tagBorder: "rgba(251,146,60,0.3)",  tagColor: "#fdba74" },
-    { bg: "#164e63", accent: "#22d3ee", sub: "rgba(255,255,255,0.6)", tagBg: "rgba(34,211,238,0.15)",  tagBorder: "rgba(34,211,238,0.3)",  tagColor: "#67e8f9" },
-  ];
-  const c = colors[index % colors.length];
-  // Each card sticks at top + (index * 64px) so they stack progressively
-  const stickyTop = 88 + index * 16;
-
-  return (
-    <div
-      className="mobile-sticky-card"
-      style={{
-        position: "sticky",
-        top: stickyTop,
-        zIndex: 10 + index,
         borderRadius: 20,
         overflow: "hidden",
-        marginBottom: index < total - 1 ? 16 : 0,
-        /* slight scale-down illusion for cards underneath */
-        transformOrigin: "top center",
+        background: "#fff",
+        boxShadow: hov
+          ? `0 28px 60px rgba(0,0,0,0.14), 0 0 0 1.5px ${svc.accent}55`
+          : "0 2px 20px rgba(0,0,0,0.06)",
+        transform: hov ? "translateY(-10px)" : "translateY(0)",
+        transition: "all 0.38s cubic-bezier(0.34,1.4,0.64,1)",
+        cursor: "pointer",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <div style={{
-        background: c.bg,
-        padding: "clamp(22px,5vw,32px)",
-        borderRadius: 20,
-        display: "flex", flexDirection: "column", gap: 14,
-        boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
-        border: `1px solid ${c.accent}22`,
-        minHeight: 220,
-      }}>
-        {/* Number + Icon row */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{
-            width: 52, height: 52,
-            background: `${c.accent}18`,
-            border: `1.5px solid ${c.accent}40`,
-            borderRadius: 14,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "1.5rem",
-          }}>
-            {svc.icon}
-          </div>
-          <span style={{
-            fontSize: "2.5rem", fontWeight: 900,
-            color: `${c.accent}25`,
-            fontFamily: "'Plus Jakarta Sans',sans-serif",
-            lineHeight: 1,
-            userSelect: "none",
-          }}>
-            0{index + 1}
-          </span>
+      {/* Image area */}
+      <div style={{ position: "relative", height: 200, overflow: "hidden", flexShrink: 0 }}>
+        <img
+          src={svc.image}
+          alt={svc.title}
+          loading="lazy"
+          style={{
+            width: "100%", height: "100%", objectFit: "cover",
+            transform: hov ? "scale(1.08)" : "scale(1)",
+            transition: "transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)",
+            display: "block",
+          }}
+        />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: `linear-gradient(160deg, ${svc.accent}cc, #0f172aee)`,
+          opacity: hov ? 1 : 0,
+          transition: "opacity 0.38s ease",
+        }} />
+        {/* Number badge */}
+        <div style={{
+          position: "absolute", top: 14, left: 16,
+          fontSize: "0.65rem", fontWeight: 800,
+          letterSpacing: "2px", color: "#fff",
+          background: "rgba(0,0,0,0.38)",
+          backdropFilter: "blur(8px)",
+          padding: "4px 10px", borderRadius: 50,
+          fontFamily: "'Plus Jakarta Sans',sans-serif",
+        }}>
+          {svc.number}
         </div>
+        {/* Arrow icon on hover */}
+        <div style={{
+          position: "absolute", bottom: 14, right: 16,
+          width: 36, height: 36, borderRadius: "50%",
+          background: "#fff",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          opacity: hov ? 1 : 0,
+          transform: hov ? "scale(1) translateY(0)" : "scale(0.7) translateY(6px)",
+          transition: "all 0.35s ease",
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke={svc.accent} strokeWidth="2.5">
+            <path d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        </div>
+      </div>
 
-        {/* Title */}
+      {/* Content area */}
+      <div style={{
+        padding: "22px 22px 24px",
+        display: "flex", flexDirection: "column", gap: 10,
+        flex: 1,
+        borderTop: `3px solid ${hov ? svc.accent : "transparent"}`,
+        transition: "border-color 0.3s",
+      }}>
         <h3 style={{
-          fontSize: "clamp(1rem,4vw,1.15rem)", fontWeight: 800,
-          color: "#fff", lineHeight: 1.25,
-          fontFamily: "'Plus Jakarta Sans',sans-serif",
-          margin: 0,
+          fontSize: "0.97rem", fontWeight: 800, color: "#0f172a",
+          lineHeight: 1.28, fontFamily: "'Plus Jakarta Sans',sans-serif", margin: 0,
         }}>{svc.title}</h3>
-
-        {/* Desc */}
         <p style={{
-          fontSize: "clamp(0.8rem,3vw,0.88rem)",
-          color: c.sub, lineHeight: 1.7,
-          fontFamily: "'Plus Jakarta Sans',sans-serif",
-          margin: 0,
+          fontSize: "0.83rem", color: "#64748b", lineHeight: 1.72,
+          flex: 1, fontFamily: "'Plus Jakarta Sans',sans-serif", margin: 0,
         }}>{svc.desc}</p>
-
-        {/* Tags */}
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
           {svc.tags.map(t => (
             <span key={t} style={{
-              padding: "4px 12px",
-              background: c.tagBg,
-              color: c.tagColor,
-              border: `1px solid ${c.tagBorder}`,
+              padding: "3px 11px",
+              background: hov ? `${svc.accent}12` : "#f1f5f9",
+              color: hov ? svc.accent : "#64748b",
+              border: `1px solid ${hov ? svc.accent + "44" : "#e2e8f0"}`,
               borderRadius: 50,
-              fontSize: "0.72rem", fontWeight: 700,
+              fontSize: "0.68rem", fontWeight: 700,
               fontFamily: "'Plus Jakarta Sans',sans-serif",
               letterSpacing: "0.3px",
+              transition: "all 0.3s",
             }}>{t}</span>
           ))}
         </div>
@@ -180,28 +163,102 @@ function MobileCard({
   );
 }
 
-/* ─── Main Section ─────────────────────────────────────────────── */
+/* ─── Mobile stack ───────────────────────────────────────────── */
+function MobileStack() {
+  const STICKY_OFFSET = 76;
+  const STACK_GAP     = 12;
+
+  return (
+    <>
+      <style>{`
+        .ms2-wrap { position: relative; padding-bottom: 20px; }
+        .ms2-wrap:last-child { padding-bottom: 0; }
+        .ms2-card {
+          position: sticky;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+      `}</style>
+      {SERVICES.map((svc, i) => (
+        <div key={svc.title} className="ms2-wrap">
+          <div
+            className="ms2-card"
+            style={{ top: STICKY_OFFSET + i * STACK_GAP, zIndex: 10 + i }}
+          >
+            {/* Image */}
+            <div style={{ position: "relative", height: 160, overflow: "hidden" }}>
+              <img
+                src={svc.image}
+                alt={svc.title}
+                loading="lazy"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(to bottom, transparent 30%, #0f172af0)",
+              }} />
+              <span style={{
+                position: "absolute", bottom: 12, left: 16,
+                fontSize: "1rem", fontWeight: 800, color: "#fff",
+                fontFamily: "'Plus Jakarta Sans',sans-serif",
+              }}>{svc.title}</span>
+              <span style={{
+                position: "absolute", top: 12, right: 14,
+                fontSize: "0.62rem", fontWeight: 800, letterSpacing: "2px",
+                color: "#fff", background: "rgba(0,0,0,0.36)",
+                backdropFilter: "blur(6px)", padding: "3px 9px", borderRadius: 50,
+                fontFamily: "'Plus Jakarta Sans',sans-serif",
+              }}>{svc.number}</span>
+            </div>
+            {/* Content */}
+            <div style={{
+              background: "#fff",
+              padding: "16px 18px 20px",
+              borderTop: `3px solid ${svc.accent}`,
+            }}>
+              <p style={{
+                fontSize: "0.82rem", color: "#64748b", lineHeight: 1.68,
+                fontFamily: "'Plus Jakarta Sans',sans-serif",
+                margin: "0 0 12px",
+              }}>{svc.desc}</p>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {svc.tags.map(t => (
+                  <span key={t} style={{
+                    padding: "3px 10px",
+                    background: `${svc.accent}12`,
+                    color: svc.accent,
+                    border: `1px solid ${svc.accent}33`,
+                    borderRadius: 50,
+                    fontSize: "0.68rem", fontWeight: 700,
+                    fontFamily: "'Plus Jakarta Sans',sans-serif",
+                  }}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
+
+/* ─── Main Section ───────────────────────────────────────────── */
 export default function Services() {
   const secRef  = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  /* Desktop card entrance animation */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const headerEl = secRef.current?.querySelector("[data-header]");
-      if (headerEl) {
-        gsap.fromTo(headerEl, { y: 36, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.8, ease: "power3.out",
-          scrollTrigger: { trigger: headerEl, start: "top 88%", once: true },
-        });
-      }
-
-      // Desktop cards stagger
-      const dcards = gridRef.current?.querySelectorAll("[data-desktop-card]");
-      if (dcards) {
-        gsap.fromTo(Array.from(dcards), { y: 48, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.6,
-          stagger: { amount: 0.45, from: "start" },
+      gsap.fromTo("[data-svc-header]", { y: 36, opacity: 0 }, {
+        y: 0, opacity: 1, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: "[data-svc-header]", start: "top 88%", once: true },
+      });
+      const cards = gridRef.current?.querySelectorAll("[data-svc-card]");
+      if (cards) {
+        gsap.fromTo(Array.from(cards), { y: 50, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 0.65,
+          stagger: { amount: 0.5, from: "start" },
           ease: "power3.out",
           scrollTrigger: { trigger: gridRef.current, start: "top 82%", once: true },
         });
@@ -213,75 +270,78 @@ export default function Services() {
   return (
     <section ref={secRef} id="services" style={{
       padding: "clamp(56px,9vw,112px) 0",
-      background: "#f8fafc",
+      /* Slightly different bg from About (#fff) for visual rhythm */
+      background: "#f1f5f9",
     }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px,4vw,32px)" }}>
 
         {/* Header */}
-        <div data-header style={{
-          textAlign: "center", maxWidth: 600,
-          margin: "0 auto clamp(36px,6vw,60px)",
+        <div data-svc-header style={{
+          textAlign: "center",
+          maxWidth: 620,
+          margin: "0 auto clamp(40px,6vw,64px)",
         }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
             <div style={{ width: 24, height: 3, background: "#2563eb", borderRadius: 2 }} />
-            <span style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "3px",
+            <span style={{
+              fontSize: "0.7rem", fontWeight: 700, letterSpacing: "3px",
               textTransform: "uppercase", color: "#2563eb",
-              fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-              Our Services
-            </span>
+              fontFamily: "'Plus Jakarta Sans',sans-serif",
+            }}>Our Services</span>
             <div style={{ width: 24, height: 3, background: "#2563eb", borderRadius: 2 }} />
           </div>
-          <h2 style={{ fontSize: "clamp(1.6rem,3.8vw,2.8rem)", fontWeight: 800,
-            lineHeight: 1.18, color: "#0f172a", marginBottom: 14,
-            fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+          <h2 style={{
+            fontSize: "clamp(1.7rem,3.8vw,2.9rem)", fontWeight: 800,
+            lineHeight: 1.16, color: "#0f172a", marginBottom: 14,
+            fontFamily: "'Plus Jakarta Sans',sans-serif",
+          }}>
             Comprehensive IT Solutions<br />
-            <span style={{ background: "linear-gradient(135deg,#2563eb,#0ea5e9)",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              for Modern Businesses
-            </span>
+            <span style={{
+              background: "linear-gradient(135deg,#2563eb,#0ea5e9)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}>for Modern Businesses</span>
           </h2>
-          <p style={{ fontSize: "clamp(0.9rem,1.5vw,1rem)", color: "#64748b", lineHeight: 1.72,
-            fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-            Enterprise-grade services designed to keep your business running smoothly,
-            securely, and efficiently.
+          <p style={{
+            fontSize: "clamp(0.9rem,1.5vw,1rem)", color: "#64748b",
+            lineHeight: 1.75, fontFamily: "'Plus Jakarta Sans',sans-serif",
+          }}>
+            Enterprise-grade services designed to keep your business running
+            smoothly, securely, and efficiently.
           </p>
         </div>
 
-        {/* ── Desktop grid (hidden on mobile) ── */}
-        <div ref={gridRef} className="services-desktop-grid" style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3,1fr)",
-          gap: "clamp(14px,2vw,22px)",
-        }}>
-          {SERVICES.map(svc => <DesktopCard key={svc.title} svc={svc} />)}
+        {/* Desktop grid */}
+        <div
+          ref={gridRef}
+          className="svc-desktop-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3,1fr)",
+            gap: "clamp(16px,2vw,24px)",
+          }}
+        >
+          {SERVICES.map(svc => <ServiceCard key={svc.title} svc={svc} />)}
         </div>
 
-        {/* ── Mobile sticky stack (hidden on desktop) ── */}
-        <div className="services-mobile-stack" style={{ display: "none" }}>
-          {SERVICES.map((svc, i) => (
-            <MobileCard key={svc.title} svc={svc} index={i} total={SERVICES.length} />
-          ))}
+        {/* Mobile stack */}
+        <div className="svc-mobile-stack" style={{ display: "none" }}>
+          <MobileStack />
         </div>
       </div>
 
       <style>{`
-        /* Show desktop grid, hide mobile stack */
         @media (min-width: 641px) {
-          .services-desktop-grid { display: grid !important; }
-          .services-mobile-stack { display: none !important; }
+          .svc-desktop-grid { display: grid !important; }
+          .svc-mobile-stack { display: none !important; }
         }
-
-        /* Show mobile stack, hide desktop grid */
         @media (max-width: 640px) {
-          .services-desktop-grid { display: none !important; }
-          .services-mobile-stack { display: block !important; }
+          .svc-desktop-grid { display: none !important; }
+          .svc-mobile-stack { display: block !important; }
         }
-
-        /* Tablet: 2 columns */
-        @media (min-width: 641px) and (max-width: 900px) {
-          .services-desktop-grid {
-            grid-template-columns: repeat(2,1fr) !important;
-          }
+        @media (min-width: 641px) and (max-width: 960px) {
+          .svc-desktop-grid { grid-template-columns: repeat(2,1fr) !important; }
         }
       `}</style>
     </section>
