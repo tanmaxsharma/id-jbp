@@ -9,7 +9,7 @@ const INFO = [
   {
     icon: "📍",
     title: "Visit Our Office",
-    lines: ["IT PARK, Bargi Hills Road,", "Naya Gaon, Bargi Hills,", "Jabalpur, Madhya Pradesh, India"],
+    lines: ["Corporate Office :- IT PARK, Phase 2 - Bargi Hills Road, Jabalpur", "Head Office :- Daksh Foundation, Napier Town, Jabalpur, M.P , 482001."],
   },
   {
     icon: "📞",
