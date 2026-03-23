@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Daksh India | Enterprise IT Solutions & Managed Services",
+  title: "India Daksh | Enterprise IT Solutions & Managed Services",
   description:
-    "Daksh India delivers enterprise-grade IT solutions — managed services, cybersecurity, network infrastructure, and software development for businesses across India.",
+    "India Daksh delivers enterprise-grade IT solutions — AI Automation , Software Development, cybersecurity, Network infrastructure, and KPO/BPO Services for businesses across India.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
