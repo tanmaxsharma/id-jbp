@@ -60,9 +60,9 @@ const NAV_LINKS = {
     { label: "IT Support",       href: "#services" },
     { label: "Network Solutions",href: "#services" },
     { label: "Cyber Security",   href: "#services" },
+    { label: "AI Automation",     href: "#services" },
     { label: "Software Dev",     href: "#services" },
-    { label: "BPO Services",     href: "#services" },
-    { label: "KPO Services",     href: "#services" },
+    { label: "BPO/KPO Services",     href: "#services" },
   ],
 };
 
