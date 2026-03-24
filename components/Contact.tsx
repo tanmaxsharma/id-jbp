@@ -1,34 +1,50 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const EMAILJS_SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+const EMAILJS_PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
+
 const INFO = [
   {
     icon: "📍",
     title: "Visit Our Office",
-    lines: ["Corporate Office :- IT PARK, Phase 2 - Bargi Hills Road, Jabalpur", "Head Office :- Daksh Foundation, Napier Town, Jabalpur, M.P , 482001."],
+    lines: [
+      { text: "CO:- Plot No. 45 - Phase 2, IT PARK - Bargi Hills, Jabalpur, M.P, India - 482003", href: null },
+      { text: "HO :- Near Bhawartal Park, Napier Town, Jabalpur, M.P , India - 482001.", href: null },
+    ],
   },
   {
     icon: "📞",
     title: "Call Us",
-    lines: ["+91 9302742400", "+91 9926439124"],
+    lines: [
+      { text: "+91 9302742400", href: "tel:+919302742400" },
+      { text: "+91 9926439124", href: "tel:+919926439124" },
+    ],
   },
   {
     icon: "✉️",
     title: "Email Us",
-    lines: ["info@indiadaksh.com"],
+    lines: [
+      { text: "info@indiadaksh.com", href: "mailto:dakshitpark@gmail.com" },
+    ],
   },
   {
     icon: "🕐",
     title: "Business Hours",
-    lines: ["Mon – Sat: 9:00 AM – 5:00 PM", "Sunday: Emergency Support Only"],
+    lines: [
+      { text: "Mon – Sat: 9:00 AM – 5:00 PM", href: null },
+      { text: "Sunday: Emergency Support Only", href: null },
+    ],
   },
 ];
 
-type State = "idle" | "sending" | "sent";
+type State = "idle" | "sending" | "sent" | "error";
 
 export default function Contact() {
   const secRef = useRef<HTMLElement>(null);
@@ -48,14 +64,32 @@ export default function Contact() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setState("sending");
-    setTimeout(() => {
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name:  form.name,
+          from_email: form.email,
+          from_phone: form.phone || "Not provided",
+          message:    form.message,
+          to_email:   "dakshbussiness@gmail.com",
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+
       setState("sent");
       setForm({ name: "", email: "", phone: "", message: "" });
       setTimeout(() => setState("idle"), 4000);
-    }, 1500);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setState("error");
+      setTimeout(() => setState("idle"), 4000);
+    }
   };
 
   const inputBase: React.CSSProperties = {
@@ -175,10 +209,32 @@ export default function Contact() {
                       marginBottom: 4, fontFamily: "'Plus Jakarta Sans', sans-serif",
                     }}>{item.title}</h4>
                     {item.lines.map(l => (
-                      <p key={l} style={{
-                        fontSize: "0.83rem", color: "#64748b", lineHeight: 1.6,
-                        fontFamily: "'Plus Jakarta Sans', sans-serif", margin: 0,
-                      }}>{l}</p>
+                      l.href ? (
+                        <a
+                          key={l.text}
+                          href={l.href}
+                          style={{
+                            fontSize: "0.83rem", color: "#2563eb", lineHeight: 1.6,
+                            fontFamily: "'Plus Jakarta Sans', sans-serif", margin: 0,
+                            display: "block", textDecoration: "none",
+                            transition: "color 0.2s",
+                          }}
+                          onMouseEnter={e => (e.currentTarget.style.color = "#1d4ed8")}
+                          onMouseLeave={e => (e.currentTarget.style.color = "#2563eb")}
+                        >
+                          {l.text}
+                        </a>
+                      ) : (
+                        <p
+                          key={l.text}
+                          style={{
+                            fontSize: "0.83rem", color: "#64748b", lineHeight: 1.6,
+                            fontFamily: "'Plus Jakarta Sans', sans-serif", margin: 0,
+                          }}
+                        >
+                          {l.text}
+                        </p>
+                      )
                     ))}
                   </div>
                 </div>
@@ -217,6 +273,26 @@ export default function Contact() {
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                   }}>
                     Our team will get back to you within 30 minutes.
+                  </p>
+                </div>
+              ) : state === "error" ? (
+                <div style={{
+                  display: "flex", flexDirection: "column",
+                  alignItems: "center", gap: 12,
+                  padding: "48px 0", textAlign: "center",
+                }}>
+                  <span style={{ fontSize: "3rem" }}>❌</span>
+                  <strong style={{
+                    fontSize: "1.1rem", fontWeight: 700, color: "#0f172a",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  }}>
+                    Something went wrong!
+                  </strong>
+                  <p style={{
+                    fontSize: "0.9rem", color: "#64748b",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  }}>
+                    Please try again or email us directly at dakshitpark@gmail.com
                   </p>
                 </div>
               ) : (
